@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class StripePaymentController extends Controller
 {
@@ -40,16 +41,21 @@ class StripePaymentController extends Controller
             'metadata'              => [
                 'user_id' => "0001"
             ],
-            'customer_email' => "cairocoders-ednalan@gmail.com", //$user->email,
+            'customer_email' => "customer@gmail.com", //$user->email,
             'success_url' => route('success'),
             'cancel_url'  => route('cancel'),
         ]);
+
+
 
         return redirect()->away($checkoutSession->url);
     }
 
     public function success()
     {
+        // To remove all session data
+        Session::flush();
+
         return "Thanks for you order You have just completed your payment. The seeler will reach out to you as soon as possible";
     }
 
